@@ -2,9 +2,11 @@
   "name": "e-commerce-store",
   "version": "1.0.0",
   "description": "Build complete e-commerce web application",
-  "main": "index.js",
+  "main": "b/server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev":"nodemon/b/server.js",
+    "start": "node/b/server.js"
   },
   "keywords": [
     "JavaScript",
