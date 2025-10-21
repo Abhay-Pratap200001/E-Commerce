@@ -1,0 +1,7 @@
+//For detacting the error
+export const asynHandler = (requestHandler) => {
+ return (req, res, next) => {
+    Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
+  };
+};
+
