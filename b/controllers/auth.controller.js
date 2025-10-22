@@ -19,8 +19,6 @@ const generateToken = (userId) => {
 
 
 
-
-
 // Store refresh token in Redis
 const storeRefreshToken = async (userId, refreshToken) => {
   await redis.set(
@@ -30,7 +28,6 @@ const storeRefreshToken = async (userId, refreshToken) => {
     7 * 24 * 60 * 60 // 7 days
   );
 };
-
 
 
 
@@ -44,18 +41,14 @@ const cookieOptions = {
 
 
 
-
-
 // Signup controller
 export const signup = asynHandler(async (req, res) => {
   try {
     const { email, password, name } = req.body;
 
-
     if ([email, name, password].some((field) => !field?.trim())) {
       throw new ApiError(400, "All fields are required");
     }
-
 
     const userExist = await User.findOne({
       $or: [{ name }, { email }],
@@ -65,18 +58,15 @@ export const signup = asynHandler(async (req, res) => {
       throw new ApiError(409, "User already exists");
     }
 
-
     let user = await User.create({
       name,
       email,
       password,
     });
 
-
     // Generate tokens and store refresh token
     const { accessToken, refreshToken } = generateToken(user._id);
     await storeRefreshToken(user._id, refreshToken);
-
 
     return res
       .status(201)
@@ -99,7 +89,6 @@ export const signup = asynHandler(async (req, res) => {
     throw new ApiError(401, error?.message || "Failed to create user");
   }
 });
-
 
 
 
@@ -137,7 +126,6 @@ export const login = asynHandler(async (req, res) => {
 
 
 
-
 export const logout = asynHandler(async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
@@ -160,8 +148,6 @@ export const logout = asynHandler(async (req, res) => {
 
 
 
-
-
 export const refreshToken = asynHandler(async (req, res) => {
   console.log("coming1");
   try {
@@ -179,13 +165,11 @@ export const refreshToken = asynHandler(async (req, res) => {
       return res.status(401).json({ message: "Inavlid refresh Token" });
     }
 
-
     const accessToken = jwt.sign(
       { userId: decoded.userId },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
-
 
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
