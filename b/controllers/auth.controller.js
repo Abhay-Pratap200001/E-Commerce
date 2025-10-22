@@ -10,16 +10,16 @@ const generateToken = (userId) => {
     expiresIn: "16m",
   });
 
-  const refreshToken = jwt.sign(
-    { userId },
-    process.env.REFRESH_TOKEN_SECRET,
-    {
-      expiresIn: "7d",
-    }
-  );
+  const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d",
+  });
 
   return { accessToken, refreshToken };
 };
+
+
+
+
 
 // Store refresh token in Redis
 const storeRefreshToken = async (userId, refreshToken) => {
@@ -31,6 +31,9 @@ const storeRefreshToken = async (userId, refreshToken) => {
   );
 };
 
+
+
+
 // Cookie options
 const cookieOptions = {
   httpOnly: true,
@@ -40,59 +43,158 @@ const cookieOptions = {
 };
 
 
+
+
+
 // Signup controller
 export const signup = asynHandler(async (req, res) => {
-  const { email, password, name } = req.body;
+  try {
+    const { email, password, name } = req.body;
 
-  // Validate input
-  if ([email, name, password].some((field) => !field?.trim())) {
-    throw new ApiError(400, "All fields are required");
-  }
 
-  // Check if user already exists
-  const userExist = await User.findOne({
-    $or: [{ name }, { email }],
-  });
+    if ([email, name, password].some((field) => !field?.trim())) {
+      throw new ApiError(400, "All fields are required");
+    }
 
-  if (userExist) {
-    throw new ApiError(409, "User already exists");
-  }
 
-  // Create new user
-  let user = await User.create({
-    name,
-    email,
-    password,
-  });
-
- 
-  // Generate tokens and store refresh token
-  const { accessToken, refreshToken } = generateToken(user._id);
-  await storeRefreshToken(user._id, refreshToken);
-
-  // Respond to client including timestamps and populated products
-  return res.status(201).cookie("accessToken", accessToken, cookieOptions).cookie("refreshToken", refreshToken, cookieOptions)
-  .json({
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        // cartItems: user.cartItems,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      },
-      success: true,
-      message: "User signed up successfully",
+    const userExist = await User.findOne({
+      $or: [{ name }, { email }],
     });
+
+    if (userExist) {
+      throw new ApiError(409, "User already exists");
+    }
+
+
+    let user = await User.create({
+      name,
+      email,
+      password,
+    });
+
+
+    // Generate tokens and store refresh token
+    const { accessToken, refreshToken } = generateToken(user._id);
+    await storeRefreshToken(user._id, refreshToken);
+
+
+    return res
+      .status(201)
+      .cookie("accessToken", accessToken, cookieOptions)
+      .cookie("refreshToken", refreshToken, cookieOptions)
+      .json({
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+        },
+        success: true,
+        message: "User signed up successfully",
+      });
+
+  } catch (error) {
+    throw new ApiError(401, error?.message || "Failed to create user");
+  }
 });
+
+
 
 
 
 export const login = asynHandler(async (req, res) => {
-  res.send("login");
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (user && (await user.comparePassword(password))) {
+      const { accessToken, refreshToken } = generateToken(user._id);
+
+      await storeRefreshToken(user._id, refreshToken);
+      return res
+        .status(201)
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
+        .json({
+          user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          },
+          success: true,
+          message: "User login sucessfully",
+        });
+    }
+
+  } catch (error) {
+    throw new ApiError(500, "Internal server error");
+  }
 });
 
+
+
+
+
 export const logout = asynHandler(async (req, res) => {
-  res.send("logout");
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (refreshToken) {
+      const decoded = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      await redis.del(`refresh_token:${decoded.userId}`);
+    }
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    res.json({ messae: "User logout successfully" });
+
+  } catch (error) {
+    throw new ApiError(500, "server error ");
+  }
+});
+
+
+
+
+
+
+export const refreshToken = asynHandler(async (req, res) => {
+  console.log("coming1");
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+      return res.status(401).json({ message: "No refresh Token" });
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const storedToken = await redis.get(`refresh_token:${decoded.userId}`);
+
+    console.log("coming in 3");
+
+    if (storedToken !== refreshToken) {
+      return res.status(401).json({ message: "Inavlid refresh Token" });
+    }
+
+
+    const accessToken = jwt.sign(
+      { userId: decoded.userId },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+
+
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 15 * 60 * 1000,
+      }).json({ messae: "Token refresh successfully" });
+
+  } catch (error) {
+    throw new ApiError(500, "server error", error.messae);
+  }
 });
