@@ -1,8 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import authRouter from './routes/auth.Route.js'
 import { connectDB } from './lib/dbConncrtion.js';
 import cookieParser from 'cookie-parser';
+import authRouter from './routes/auth.Route.js'
+import productRoutes from './routes/product.Route.js'
+
 
 dotenv.config();
 
@@ -12,6 +14,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/api/auth', authRouter)
+app.use('/api/products', productRoutes)
+
 
 
 connectDB().then(() => {
