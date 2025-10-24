@@ -4,6 +4,8 @@ import { connectDB } from './lib/dbConncrtion.js';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.Route.js'
 import productRoutes from './routes/product.Route.js'
+import cartRoutes from './routes/cart.Route.js'
+import couponRoutes from './routes/cart.Route.js'
 
 
 dotenv.config();
@@ -15,6 +17,9 @@ app.use(cookieParser())
 
 app.use('/api/auth', authRouter)
 app.use('/api/products', productRoutes)
+app.use('/api/cart', cartRoutes)
+app.use('/api/coupons', couponRoutes)
+
 
 
 
