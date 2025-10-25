@@ -154,3 +154,13 @@ export const refreshToken = asynHandler(async (req, res) => {
     })
     .json({ message: "Token refreshed successfully" });
 });
+
+
+export const getProfile = asynHandler(async(req, res)=>{
+  try {
+    res.json(req.user)
+  } catch (error) {
+    throw new ApiError(500, "cant find user server error");
+    
+  }
+})
