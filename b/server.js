@@ -6,7 +6,8 @@ import authRouter from './routes/auth.Route.js'
 import productRoutes from './routes/product.Route.js'
 import cartRoutes from './routes/cart.Route.js'
 import couponRoutes from './routes/cart.Route.js'
-
+import paymentRoutes from './routes/payment.Route.js'
+import analyticRoutes from './routes/analytic.Routes.js'
 
 dotenv.config();
 
@@ -19,6 +20,9 @@ app.use('/api/auth', authRouter)
 app.use('/api/products', productRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/coupons', couponRoutes)
+app.use('api/payments', paymentRoutes)
+app.use('api/analytics', analyticRoutes)
+
 
 
 
