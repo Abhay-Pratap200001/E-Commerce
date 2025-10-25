@@ -4,13 +4,16 @@ import Product from '../models/product.model.js'
 
 export const addToCart = asynHandler(async(req, res) => {
     try {
+        //getting product id and user id and keeping product it into  {productId} variable
         const {productId} = req.body;
         const user = req.user
 
+        //if user.cartItems item.id is equal to product id increment it
         const existingItem = user.cartItems.find(item => item.id === productId)
         if (existingItem) {
             existingItem.quantity += 1;
         }else{
+            //else if its empty add new product into card
             user.cartItems.push(productId)
         }
 
@@ -25,10 +28,15 @@ export const addToCart = asynHandler(async(req, res) => {
 
 export const getCartProducts = asynHandler(async(req, res) => {
     try {
+        //getiing product which id has under the cartItems
         const products = await Product.find({_id: {$in: req.params.cartItems}})
         const cartItems = products.map((product)=>{
+
+        // product which id is equal to card items 
         const item = req.user.cartItems.find((cartItem) => cartItem.id === product.id)
-        return {...products.toJSON(), quantity: item.quantity};
+
+        //return all product and qunatitiy of item
+        return {...product.toJSON(), quantity: item.quantity};
         })
         res.json(cartItems)
     } catch (error) {

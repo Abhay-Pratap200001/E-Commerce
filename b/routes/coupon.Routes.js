@@ -8,4 +8,4 @@ router.get('/',protectRoute, getCoupon )
 router.get('/vlidate',protectRoute, validateCoupon )
 
 
-export default router
+export default router 

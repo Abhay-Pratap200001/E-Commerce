@@ -1,8 +1,8 @@
 import Coupon from "../models/coupon.model.js";
 import { ApiError } from "../utils/api.Error.js";
-import { asynHandler } from "../utils/asyncHandler.js";
+import { asynHandler } from "../utils/asyncHandler.js ";
 
-
+//sending coupons to user as request
 export const getCoupon = asynHandler(async(req, res) =>{
     try {
         const coupon = await Coupon.findOne({userId: req.user._id, isActive:true})
@@ -14,10 +14,11 @@ export const getCoupon = asynHandler(async(req, res) =>{
 })
 
 
+//validate coupon is genuine or not
 export const validateCoupon = asynHandler(async(req, res) => {
     try {
         const {code} = req.body;
-        const coupon = await Coupon.findOne({code:code, userId:req.user._id, isActive})
+        const coupon = await Coupon.findOne({code:code, userId:req.user._id, isActive:true})
         if (!coupon) {
             throw new ApiError(404, "Coupon not found");
         }
