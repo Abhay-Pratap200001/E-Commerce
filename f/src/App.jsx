@@ -6,18 +6,31 @@ import Navbar from "./components/Navbar";
 
 export function App() {
   return (
-      <div className="min-h-screen bg-[#0d0d0d] text-white relative overflow-hidden">
-      {/* Background Layers */}
-      <div className="absolute inset-0 z-0">
-        {/* Strong radial glow from center */}
-        <div className="absolute top-1/2 left-1/2 w-[200%] h-[200%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.06)_0%,_rgba(0,0,0,0)_60%)]"></div>
+    <div className="min-h-screen bg-[#0a0a0a] text-white relative overflow-hidden">
+      {/*  Premium Graphite Gradient Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Deep radial glow */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%]
+          bg-[radial-gradient(circle_at_center,_rgba(40,40,40,0.6)_0%,_rgba(15,15,15,0.9)_40%,_rgba(0,0,0,1)_100%)]"
+        ></div>
 
-        {/* Crisp gradient sweep (top left to bottom right) */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] via-[#2a2a2a] to-black opacity-90"></div>
+        {/* Subtle curved metallic sweep */}
+        <div
+          className="absolute inset-0
+          bg-[linear-gradient(135deg,_rgba(80,80,80,0.08)_0%,_rgba(0,0,0,0.6)_50%,_rgba(30,30,30,0.1)_100%)]
+          mix-blend-overlay opacity-80"
+        ></div>
+
+        {/* Slight inner shadow for depth */}
+        <div
+          className="absolute inset-0
+          bg-[radial-gradient(circle_at_bottom_right,_rgba(0,0,0,0.8)_0%,_transparent_70%)]"
+        ></div>
       </div>
 
       {/* App Content */}
-      <div className="relative z-70 pt-20">
+      <div className="relative z-50 pt-20">
         <Navbar />
 
         <Routes>
@@ -26,6 +39,6 @@ export function App() {
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
-     </div>
+    </div>
   );
 }
