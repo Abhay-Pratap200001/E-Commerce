@@ -3,6 +3,7 @@ import HomePage from "./Pages/HomePage";
 import SignUpPage from "./Pages/SignUpPage";
 import LoginPage from "./Pages/LoginPage";
 import Navbar from "./components/Navbar";
+import { Toaster } from "react-hot-toast";
 
 export function App() {
   return (
@@ -39,6 +40,7 @@ export function App() {
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
+      <Toaster/>
     </div>
   );
 }
