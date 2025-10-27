@@ -8,6 +8,7 @@ import cartRoutes from './routes/cart.Route.js'
 import couponRoutes from './routes/cart.Route.js'
 import paymentRoutes from './routes/payment.Route.js'
 import analyticRoutes from './routes/analytic.Routes.js'
+import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
 
@@ -23,7 +24,8 @@ app.use('/api/coupons', couponRoutes)
 app.use('api/payments', paymentRoutes)
 app.use('api/analytics', analyticRoutes)
 
-
+//error middle ware
+app.use(errorHandler);
 
 
 
