@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserPlus, Mail, Lock, User, ArrowRight, Loader } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUserStore } from "../stores/useUserStore.js";
 
+
 const SignUpPage = () => {
-  const loading = false;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,18 +13,14 @@ const SignUpPage = () => {
     confirmPassword: "",
   });
 
+  let navigate = useNavigate()
 
-  const {signup } = useUserStore()
+  const {signup, loading } = useUserStore()
 
-  const handleSubmit = (e) => {
-    console.log('enetr 1');
-    
+  const handleSubmit = (e) => {    
     e.preventDefault();
-    console.log('enetr 2');
-
     signup(formData)
-
-    console.log('enetr 3');
+    navigate('/')
 
   };
 
