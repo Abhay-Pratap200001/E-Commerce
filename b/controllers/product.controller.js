@@ -31,7 +31,6 @@ export const createProduct = asynHandler(async (req, res) => {
 
 
 
-
 export const getAllProducts = asynHandler(async (req, res) => {
   try {
     const products = await Product.find({});
@@ -56,8 +55,6 @@ export const getProductsByCategory = asynHandler(async(req, res) => {
 
 
 
-
-
 export const getFeaturedProducts = asynHandler(async (req, res) => {
   try {
     let featuredProducts = await redis.get("featured_Products");
@@ -76,7 +73,6 @@ export const getFeaturedProducts = asynHandler(async (req, res) => {
     throw new ApiError(500, "server error");
   }  
 });  
-
 
 
 
@@ -106,7 +102,6 @@ export const getRecommendedProducts = asynHandler(async(req, res) => {
 
 
 
-
 export const toggleFeaturedProduct = asynHandler(async(req, res) =>{
     try {
         const product = await Product.findById(req.params.id)
@@ -123,6 +118,8 @@ export const toggleFeaturedProduct = asynHandler(async(req, res) =>{
     }
 }) 
 
+
+
 async function updateFeaturedProductsCache( ) {
     try {
         const featuredProducts = await Product.find({isFeatured: true}).lean()
@@ -132,7 +129,6 @@ async function updateFeaturedProductsCache( ) {
         
     }
 }
-
 
 
 
