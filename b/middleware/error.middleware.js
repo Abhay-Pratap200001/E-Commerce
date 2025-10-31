@@ -1,8 +1,7 @@
-// backend/middlewares/error.middleware.js
+// backend/middlewares/error.middleware.js 
 import { ApiError } from "../utils/api.Error.js";
 
 export const errorHandler = (err, req, res, next) => {
-  console.error("❌ Error:", err); // optional for debugging
 
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json({

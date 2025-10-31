@@ -17,7 +17,7 @@ const Navbar = () => {
           {/*Left side Logo */} 
           <Link
             to="/"
-            className="text-2xl font-semibold tracking-wide text-emerald-400 hover:text-emerald-300 transition duration-300 flex items-center space-x-2">
+            className="text-2xl font-semibold tracking-wide text-emerald-400 hover:text-emerald-400 transition duration-300 flex items-center space-x-2">
             E-Commerce
           </Link>
 
