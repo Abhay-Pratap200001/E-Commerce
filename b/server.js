@@ -1,47 +1,49 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import { connectDB } from './lib/dbConncrtion.js';
-import cookieParser from 'cookie-parser';
-import authRouter from './routes/auth.Route.js'
-import productRoutes from './routes/product.Route.js'
-import cartRoutes from './routes/cart.Route.js'
-import couponRoutes from './routes/cart.Route.js'
-import paymentRoutes from './routes/payment.Route.js'
-import analyticRoutes from './routes/analytic.Routes.js'
-import { errorHandler } from './middleware/error.middleware.js';
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+
+import authRoutes from "./routes/auth.route.js";
+import productRoutes from "./routes/product.Route.js"
+import cartRoutes from "./routes/cart.route.js";
+import couponRoutes from "./routes/coupon.route.js";
+import paymentRoutes from "./routes/payment.route.js";
+import analyticsRoutes from "./routes/analytic.Routes.js";
+import { connectDB } from "./lib/dbConncrtion.js";
+import {errorHandler} from "./middleware/error.middleware.js"
 
 dotenv.config();
 
-const app = express()
-const PORT = process.env.PORT || 2000
-app.use(express.json())
-app.use(cookieParser())
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use('/api/auth', authRouter)
-app.use('/api/products', productRoutes)
-app.use('/api/cart', cartRoutes)
-app.use('/api/coupons', couponRoutes)
-app.use('api/payments', paymentRoutes)
-app.use('api/analytics', analyticRoutes)
 
-//error middle ware
+app.use(express.json({ limit: "10mb" })); // allows you to parse the body of the request
+app.use(cookieParser());
+
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/coupons", couponRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/analytics", analyticsRoutes);
+
+//  Error handler (after routes)
 app.use(errorHandler);
 
-
-
-connectDB().then(() => {
+// Connect DB and start server
+connectDB()
+  .then(() => {
     const server = app.listen(PORT, () => {
       console.log(`✅ Server running at http://localhost:${PORT}`);
     });
 
-    // server error handling
+    // Handle runtime errors gracefully
     server.on("error", (error) => {
       console.error("❌ Server Error:", error);
-      process.exit(1); // Exit the app if server fails
+      process.exit(1);
     });
   })
   .catch((error) => {
     console.error("❌ MongoDB Connection Failed:", error);
-    process.exit(1); // Exit app if DB connection fails
+    process.exit(1);
   });
-
