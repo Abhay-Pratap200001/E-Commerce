@@ -1,33 +1,34 @@
 import { asynHandler } from "../utils/asyncHandler.js";
 import Product from "../models/product.model.js";
 import { ApiError } from "../utils/api.Error.js";
-import { redis } from "../lib/redis.js";
 import cloudinary from "../lib/Cloudinary.js";
 
+//product creating controller
+export const createProduct = async (req, res) => {
+	try {
+		const { name, description, price, image, category } = req.body;
 
+		let cloudinaryResponse = null;
 
-export const createProduct = asynHandler(async (req, res) => {
-  try {
-    const { name, description, price, image, category } = req.body;
-    let cloudinaryResponse = null;
-    if (image) {
-      cloudinaryResponse = await cloudinary.uploader.upload(image, {
-        folder: "product",
-      });
-    }
+		if (image) {
+			cloudinaryResponse = await cloudinary.uploader.upload(image, { folder: "products" });
+		}
 
-    const product = await Product.create({
-      name,
-      description,
-      price,
-      image: cloudinaryResponse?.secure_url ? cloudinaryResponse.secure_url : "",
-      category,
-    });
-    res.status(201).json(product);
-  } catch (error) {
-    throw new ApiError(500, "server errro");
-  }
-});  
+		const product = await Product.create({
+			name,
+			description,
+			price,
+			image: cloudinaryResponse?.secure_url ? cloudinaryResponse.secure_url : "",
+			category,
+		});
+
+		res.status(201).json(product);
+	} catch (error) {
+		console.log("Error in createProduct controller", error.message);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+};
+
 
 
 
@@ -43,6 +44,8 @@ export const getAllProducts = asynHandler(async (req, res) => {
 
 
 
+
+
 export const getProductsByCategory = asynHandler(async(req, res) => {
     const {category} = req.params
     try {
@@ -51,7 +54,9 @@ export const getProductsByCategory = asynHandler(async(req, res) => {
     } catch (error) {
         throw new ApiError(500, "server error");        
     }
-})
+});
+
+
 
 
 
@@ -73,6 +78,8 @@ export const getFeaturedProducts = asynHandler(async (req, res) => {
     throw new ApiError(500, "server error");
   }  
 });  
+
+
 
 
 
@@ -98,7 +105,9 @@ export const getRecommendedProducts = asynHandler(async(req, res) => {
     } catch (error) {  
        throw new ApiError(500, "server error");        
     }   
-})    
+});    
+
+
 
 
 
@@ -116,7 +125,9 @@ export const toggleFeaturedProduct = asynHandler(async(req, res) =>{
     } catch (error) {
         throw new ApiError(500, "Server error");        
     }
-}) 
+});
+
+
 
 
 
@@ -128,7 +139,9 @@ async function updateFeaturedProductsCache( ) {
         throw new ApiError(500, "error while updating cache function");
         
     }
-}
+};
+
+
 
 
 
