@@ -20,8 +20,8 @@ export const protectRoute = asynHandler(async (req, res, next) => {
     }
 
     req.user = user;
-    console.log("Authenticated user:", user._id);
-    next(); // ✅ proceed to next middleware
+    // console.log("Authenticated user:", user._id);
+    next(); //  proceed to next middleware
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       throw new ApiError(401, "Unauthorized - Access token expired");
@@ -32,9 +32,9 @@ export const protectRoute = asynHandler(async (req, res, next) => {
 
 
 
-// ✅ Admin Route Middleware
+// Admin Route Middleware
 export const adminRoute = (req, res, next) => {
-  console.log("Admin check");
+  // console.log("Admin check");
 
   if (req.user && req.user.role === "admin") {
     next();
