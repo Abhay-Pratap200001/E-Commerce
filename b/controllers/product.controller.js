@@ -2,6 +2,7 @@ import { asynHandler } from "../utils/asyncHandler.js";
 import Product from "../models/product.model.js";
 import { ApiError } from "../utils/api.Error.js";
 import cloudinary from "../lib/Cloudinary.js";
+import { redis } from "../lib/redis.js";
 
 //product creating controller
 export const createProduct = async (req, res) => {
@@ -123,6 +124,7 @@ export const toggleFeaturedProduct = asynHandler(async(req, res) =>{
             throw new ApiError(404, "Product not found");
         }
     } catch (error) {
+      console.log("Error in toggleFeaturedProduct controller", error.message);
         throw new ApiError(500, "Server error");        
     }
 });
@@ -131,16 +133,23 @@ export const toggleFeaturedProduct = asynHandler(async(req, res) =>{
 
 
 
-async function updateFeaturedProductsCache( ) {
-    try {
-        const featuredProducts = await Product.find({isFeatured: true}).lean()
-       await redis.set("featured_Products", JSON.stringify(featuredProducts));
-    } catch (error) {
-        throw new ApiError(500, "error while updating cache function");
-        
-    }
-};
+async function updateFeaturedProductsCache() {
+  try {
+    const featuredProducts = await Product.find({ isFeatured: true }).lean();
 
+    // if redis not connected or fails, just log it
+    if (!redis) {
+      console.log("⚠️ Redis not initialized, skipping cache update");
+      return;
+    }
+
+    await redis.set("featured_Products", JSON.stringify(featuredProducts));
+    console.log("✅ Featured products cache updated");
+  } catch (error) {
+    console.log("⚠️ Redis cache update failed:", error.message);
+    // do NOT throw, just log — avoid breaking toggle route
+  }
+}
 
 
 
@@ -151,22 +160,23 @@ export const deleteProduct = asynHandler(async (req, res) => {
 
     if (!product) {
       throw new ApiError(404, "Product not found");
-    }  
+    }
 
     if (product.image) {
       const publicId = product.image.split("/").pop().split(".")[0];
-    }  
-    try {
-      await cloudinary.uploader.destroy(`product/${publicId}`);
-      console.log("images had delete from coudinary");
-    } catch (error) {
-        throw new ApiError(404, "failed to delet image");
-        
-    }    
+      try {
+        const result = await cloudinary.uploader.destroy(`products/${publicId}`);
+        console.log("Cloudinary delete result:", result);
+      } catch (error) {
+        throw new ApiError(500, "Failed to delete image from Cloudinary");
+      }
+    }
 
     await Product.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Product deleted successfully" });
+
   } catch (error) {
-    throw new ApiError(500, "server error");
-    
-  }  
-});  
+    console.log("Error in deleteProduct controller:", error.message);
+    throw new ApiError(500, "Server error");
+  }
+});

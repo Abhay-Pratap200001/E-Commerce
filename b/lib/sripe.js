@@ -7,4 +7,4 @@ dotenv.config();
 // Create a Stripe instance using your secret key (kept hidden in .env)
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// ✅ This instance is now ready to be used anywhere for creating payment sessions or processing charges
+//  This instance is now ready to be used anywhere for creating payment sessions or processing charges
