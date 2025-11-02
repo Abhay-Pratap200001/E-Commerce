@@ -47,6 +47,7 @@ export const useUserStore = create((set, get) => ({
 },
 
 
+
 checkAuth: async () => {
   set({checkingAuth : true})
   try {
@@ -56,6 +57,7 @@ checkAuth: async () => {
 set({checkingAuth:false, user: null})
   }
 },
+
 
 
 logout: async () => {
