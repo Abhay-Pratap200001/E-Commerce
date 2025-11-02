@@ -49,7 +49,7 @@ const Navbar = () => {
             {/* Admin Dashboard if user is login and also admin */}
             {isAdmin && (
               <Link
-                to="/admin"
+                to="/secret-dashboard"
                 className="flex items-center text-gray-200 hover:text-emerald-400 border border-emerald-700/30 hover:border-emerald-500/50 px-3 py-1.5 rounded-md font-medium transition duration-300 ease-in-out shadow-sm">
                 <Lock className="inline-block mr-1" size={18} />
                 <span className="hidden sm:inline">Dashboard</span>
