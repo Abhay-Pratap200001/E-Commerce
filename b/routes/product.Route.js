@@ -10,7 +10,7 @@ const router = express.Router()
 router.post("/", protectRoute, adminRoute, createProduct);
 router.get('/', protectRoute, adminRoute,  getAllProducts)
 router.get('/featured', getFeaturedProducts)
-router.get('/:id', protectRoute, adminRoute, toggleFeaturedProduct)
+router.patch('/:id', protectRoute, adminRoute, toggleFeaturedProduct)
 router.get('/recommendation',  getRecommendedProducts)
 router.get('/category/:category', getProductsByCategory)
 router.delete('/:id', protectRoute, adminRoute, deleteProduct)
