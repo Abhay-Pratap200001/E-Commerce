@@ -32,32 +32,47 @@ export const useProductStore = create((set) => ({
     }
   },
 
+
+
   featchAllProducts: async () => {
     set({ loading: true });
     try {
       const response = await axios.get("/products");
       set({ products: response.data.products, loading: false });
-      toast.success("Success fully get all products");
+      toast.success("Success fully get all products", {id: 'login'});
     } catch (error) {
       set({ error: "Failed to fetch products", loading: false });
-      toast.error(error.response.data.error || "Failed to fetch product");
+      toast.error(error.response.data.error || "Failed to fetch product",);
     }
   },
+
+
+  featchProductsByCategory: async (Category) => {
+    set({loading: true})
+    try {
+      const response = await axios.get(`/products/category/${Category}`)
+      set({products: response.data.products, loading: false})
+    } catch (error) {
+      set({error: "Failed to fetch products", loading: false});
+      toast.error(error.response.data.error || 'Failed to fetch Products')      
+    }
+  },
+
+
 
  deleteProduct: async (productId) => {
   set({ loading: true });
   try {
     await axios.delete(`/products/${productId}`);
-
     set((state) => ({
       products: state.products.filter((p) => p._id !== productId),
       loading: false,
     }));
 
-    toast.success("🗑️ Product deleted successfully!");
+    toast.success("🗑️ Product deleted successfully!", {id: 'login'});
   } catch (error) {
     set({ loading: false });
-    toast.error(error.response?.data?.error || "Failed to delete product");
+    toast.error(error.response?.data?.error || "Failed to delete product", {id: 'login'});
   }
 },
 
