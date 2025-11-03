@@ -51,7 +51,7 @@ export const getProductsByCategory = asynHandler(async(req, res) => {
     const {category} = req.params
     try {
         const products = await Product.find({category})
-        res.json(products)
+        res.json({products})
     } catch (error) {
         throw new ApiError(500, "server error");        
     }
