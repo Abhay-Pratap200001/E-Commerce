@@ -10,7 +10,7 @@ import suits from "../assets/suits.jpg";
 import bags from "../assets/bags.jpg";
 
 
-// ✅ Category data
+//Category data
 const categories = [
   { href: "/jeans", name: "Jeans", imageUrl: jeans },
   { href: "/t-shirts", name: "T-Shirts", imageUrl: tshirts },
@@ -21,15 +21,6 @@ const categories = [
   { href: "/bags", name: "Bags", imageUrl: bags },
 ];
 
-// const categories = [
-//   { href: "/jeans", name: "Jeans", imageUrl: "/assets/jeans.jpg" },
-//   { href: "/t-shirts", name: "T-shirts", imageUrl: "/assets/tshirts.jpg" },
-//   { href: "/shoes", name: "Shoes", imageUrl: "/assets/shoes.jpg" },
-//   { href: "/glasses", name: "Glasses", imageUrl: "/assets/glasses.png" },
-//   { href: "/jackets", name: "Jackets", imageUrl: "/assets/jackets.jpg" },
-//   { href: "/suits", name: "Suits", imageUrl: "/assets/suits.jpg" },
-//   { href: "/bags", name: "Bags", imageUrl: "/assets/bags.jpg" },
-// ];
 
 
 const HomePages = () => {
