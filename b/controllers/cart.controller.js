@@ -26,23 +26,28 @@ export const addToCart = asynHandler(async(req, res) => {
 })
 
 
-export const getCartProducts = asynHandler(async(req, res) => {
-    try {
-        //getiing product which id has under the cartItems
-        const products = await Product.find({_id: {$in: req.params.cartItems}})
-        const cartItems = products.map((product)=>{
+export const getCartProducts = asynHandler(async (req, res) => {
+  try {
+    //  Extract product IDs from user's cart
+    const productIds = req.user.cartItems.map((item) => item.id);
 
-        // product which id is equal to card items 
-        const item = req.user.cartItems.find((cartItem) => cartItem.id === product.id)
+    //  Find all products that are in user's cart
+    const products = await Product.find({ _id: { $in: productIds } });
 
-        //return all product and qunatitiy of item
-        return {...product.toJSON(), quantity: item.quantity};
-        })
-        res.json(cartItems)
-    } catch (error) {
-        throw new ApiError(500, "server error while geting cards");     
-    }
-})
+    //  Combine product details with quantity
+    const cartItems = products.map((product) => {
+      // find cartItem which is equal to product
+      const item = req.user.cartItems.find((cartItem) => cartItem.id === product._id.toString());
+
+      // return product and qunatity of product
+      return {...product.toJSON(),quantity: item.quantity};
+    });
+    res.status(200).json(cartItems);
+  } catch (error) {
+    console.error(error);
+    throw new ApiError(500, "Server error while fetching cart items");
+  }
+});
 
 
 export const removeAllFromCart = asynHandler(async(req, res) => {
@@ -63,28 +68,31 @@ export const removeAllFromCart = asynHandler(async(req, res) => {
 })
 
 
-export const updateQuantity = asynHandler(async(req, res) => {
-    try {
-        const {id:productId} = req.params
-        const {quantity} = req.body
-        const user = req.user;
-        const existingItem = user.cartItems.find((item) => item.id === productId)
+export const updateQuantity = asynHandler(async (req, res) => {
+  try {
+    //getting product from id and quantity of product
+    const { id: productId } = req.params;
+    const { quantity } = req.body;
+    const user = req.user;
 
-        if (existingItem) {
-            if (quantity === 0) { 
-                user.cartItems = user.cartItems.filter((item) => item.id !== productId)  
-                await user.save();
-                return res.json(user.cartItems)
-            }
-            existingItem.quantity = quantity
-            await user.save()
-            res.json(user.cartItems)
-        }else{
-            throw new ApiError(404, "Product not found for update")
-        }
-    } catch (error) {
-        throw new ApiError(500, "server error while updating product");
-        
-    }  
-})
+    //find cardItem which is equal to productId
+    const existingItem = user.cartItems.find((item) => item.id.toString() === productId);
+
+    if (existingItem) {
+      //if quantity is  zero of product in cart then remove the product
+      if (quantity === 0) {
+        user.cartItems = user.cartItems.filter((item) => item.id.toString() !== productId);
+      } else {
+        // or add first quantity 
+        existingItem.quantity = quantity;
+      }
+      await user.save();
+      res.json(user.cartItems);
+    } else {
+      throw new ApiError(404, "Product not found for update");
+    }
+  } catch (error) {
+    throw new ApiError(500, "Server error while updating product");
+  }
+});
 
