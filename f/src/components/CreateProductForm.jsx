@@ -48,7 +48,7 @@ const CreateProductForm = () => {
 
 
   return (
-    <div className="flex flex-col justify-center py-12 px-6 sm:px-8 lg:px-10 relative">
+    <div className="flex flex-col justify-center py-12 px-6 sm:px-8 lg:px-10 relative ">
 
       {/* Heading */}
       <motion.div
