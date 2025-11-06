@@ -16,7 +16,7 @@ const CartPage = () => {
   }, []);
 
   return (
-    <div className="py-10 md:py-16 bg-black text-white min-h-screen">
+    <div className="py-10 md:py-16  text-white min-h-screen">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <div className="mt-8 flex flex-col lg:flex-row lg:items-start lg:gap-10">
           <motion.div

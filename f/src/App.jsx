@@ -11,6 +11,8 @@ import AdminPage from './Pages/AdminPage'
 import CategoryPage from "./Pages/CategoryPage";
 import CartPage from "./Pages/CartPage";
 import { useCartStore } from "./stores/useCardStore";
+import PurchaseSuccessPage from "./Pages/PurchaseSuccessPage";
+import PurchaseCancelPage from "./Pages/PurchaseCancelPage";
 
 export function App() {
   const {user, checkAuth, checkingAuth} = useUserStore()
@@ -29,7 +31,7 @@ export function App() {
   if (checkingAuth) return <LoadingSpinner/>
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white relative overflow-hidden">
+    <div className="min-h-screen bg-[#282828] text-white relative overflow-hidden">
       {/*  Premium Graphite Gradient Background */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Deep radial glow */}
@@ -62,6 +64,8 @@ export function App() {
           <Route path="/secret-dashboard" element={user?.role === "admin" ? <AdminPage />  : <Navigate to='login'/>} />
           <Route path="/category/:category" element={<CategoryPage/>} />
           <Route path="/cart" element={user ? <CartPage/>: <Navigate to= '/login'/>} />
+          <Route path="/purchase-success" element={user ? <PurchaseSuccessPage/>: <Navigate to= '/login'/>} />
+          <Route path="/purchase-cancle" element={user ? <PurchaseCancelPage/>: <Navigate to= '/login'/>} />
         </Routes>
       </div>
       <Toaster/>
