@@ -101,4 +101,15 @@ export const useProductStore = create((set) => ({
 		}
 	},
 
+
+  fetchFeaturedProducts: async () => {
+    set({loading: true})
+    try {
+      const response = await axios.get("/products/featured")
+      set({products: response.data, loading: false})
+    } catch (error) {
+      console.log(error, "error while featching featured product");
+    }
+  }
+
 }));
