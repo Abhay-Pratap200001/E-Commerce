@@ -10,10 +10,9 @@ import {errorHandler} from "./middleware/error.middleware.js"
 import authRoutes from "./routes/auth.route.js";
 import productRoutes from "./routes/product.Route.js"
 import cartRoutes from "./routes/cart.route.js";
-import couponRoutes from "./routes/coupon.route.js";
 import analyticsRoutes from "./routes/analytic.Routes.js";
 import paymentRoutes from "./routes/payment.Route.js"
-
+import couponRoutes from "./routes/coupon.Route.js"
 
 
 dotenv.config();

@@ -59,26 +59,46 @@ export const getProductsByCategory = asynHandler(async(req, res) => {
 
 
 
-
-
+// 
+// import asycHandler from "../utils/asyncHandler.js"; // ensure correct import
 export const getFeaturedProducts = asynHandler(async (req, res) => {
   try {
-    let featuredProducts = await redis.get("featured_Products");
+    // Try Redis cache first
+    let featuredProducts = null;
+    try {
+      featuredProducts = await redis.get("featured_Products");
+      console.log("Redis fetched:", featuredProducts ? "✅ Cached data found" : "❌ No cache");
+    } catch (redisErr) {
+      console.warn("⚠️ Redis fetch failed:", redisErr.message);
+    }
+
     if (featuredProducts) {
       return res.json(JSON.parse(featuredProducts));
-    }  
+    }
 
-    featuredProducts = await Product.find({ isFeatured: true }).lean();
-    if (!featuredProducts) {
-      throw new ApiError(404, "No featured product found");
-    }  
+    //  Fetch from MongoDB
+    const dbProducts = await Product.find({ isFeatured: true }).lean();
+    console.log("Mongo found:", dbProducts.length, "featured products");
 
-    await redis.set("featured_Products", JSON.stringify(featuredProducts));
-    res.json(featuredProducts);
+    if (!dbProducts || dbProducts.length === 0) {
+      return res.status(404).json({ message: "No featured products found" });
+    }
+
+    //  Save to Redis cache (if connected)
+    try {
+      await redis.set("featured_Products", JSON.stringify(dbProducts));
+      console.log("✅ Featured products cached in Redis");
+    } catch (cacheErr) {
+      console.warn("⚠️ Redis cache set failed:", cacheErr.message);
+    }
+
+    res.json(dbProducts);
   } catch (error) {
-    throw new ApiError(500, "server error");
-  }  
-});  
+    console.error("❌ Error in getFeaturedProducts controller:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 
 
 
