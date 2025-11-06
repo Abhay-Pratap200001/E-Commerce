@@ -14,24 +14,31 @@ export const getCoupon = asynHandler(async(req, res) =>{
 })
 
 
-//validate coupon is genuine or not
-export const validateCoupon = asynHandler(async(req, res) => {
-    try {
-        const {code} = req.body;
-        const coupon = await Coupon.findOne({code:code, userId:req.user._id, isActive:true})
-        if (!coupon) {
-            throw new ApiError(404, "Coupon not found");
-        }
+export const validateCoupon = asynHandler(async (req, res) => {
+try {
+	
+	const { code } = req.body;
+	console.log("Received body:", req.body);
+    console.log("User ID:", req.user?._id);
+		const coupon = await Coupon.findOne({ code: code, userId: req.user._id, isActive: true });
 
-        if (coupon.expirationDate < new Date()) {
-            coupon.isActive = false
-            await coupon.save()
-            throw new ApiError(404, "coupon expired");           
-        }
+		if (!coupon) {
+			return res.status(404).json({ message: "Coupon not found" });
+		}
 
-        res.json({message:'coupon is valid' , code: coupon.code, discountPercentage: coupon.discountPercentage})
-    } catch (error) {
-       throw new ApiError(500, "server error while validate coupon");
-        
-    }   
-})
+		if (coupon.expirationDate < new Date()) {
+			coupon.isActive = false;
+			await coupon.save();
+			return res.status(404).json({ message: "Coupon expired" });
+		}
+
+		res.json({
+			message: "Coupon is valid",
+			code: coupon.code,
+			discountPercentage: coupon.discountPercentage,
+		});
+	} catch (error) {
+		console.log("Error in validateCoupon controller", error.message);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});

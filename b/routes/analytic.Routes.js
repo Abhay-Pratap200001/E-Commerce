@@ -9,7 +9,7 @@ const router = express.Router()
 router.get('/', protectRoute, adminRoute, async (req, res) => {
   try {
     //  Get overall analytics (total users, products, sales, revenue)
-    const analyticData = await getAnalyticsData();
+    const analyticsData = await getAnalyticsData();
 
     //  Get last 7 days' date range
     const endDate = new Date();
@@ -20,7 +20,7 @@ router.get('/', protectRoute, adminRoute, async (req, res) => {
 
     // Send both sets of data together
     res.json({
-      analyticData,
+      analyticsData,
       dailySalesData
     });
   } catch (error) {

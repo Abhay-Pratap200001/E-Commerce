@@ -35,6 +35,7 @@ export const getAnalyticsData = async () => {
 
 
 
+
 export const getDailySalesData = async (startDate, endDate) => {
   try {
     // Aggregate sales between given date range
@@ -54,10 +55,10 @@ export const getDailySalesData = async (startDate, endDate) => {
       { $sort: { _id: 1 } } // sort by date (ascending)
     ]);
 
-    // 🗓️ Generate all dates between start and end
+    // Generate all dates between start and end
     const dateArray = getDateInRange(startDate, endDate);
 
-    // 🧩 Map over each date and attach sales/revenue (0 if no data)
+    //  Map over each date and attach sales/revenue (0 if no data)
     return dateArray.map(date => {
       const foundData = dailySalesData.find(item => item._id === date);
       return {
