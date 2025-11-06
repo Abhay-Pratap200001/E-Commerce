@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProductTypes from '../components/ProductTypes';
 
 import jeans from "../assets/jeans.jpg";
@@ -8,10 +8,11 @@ import glasses from "../assets/glasses.png"; // fixed here
 import jackets from "../assets/jackets.jpg";
 import suits from "../assets/suits.jpg";
 import bags from "../assets/bags.jpg";
+import { useProductStore } from '../stores/useProductStore';
+import FeaturedProducts from '../components/FeaturedProducts';
 
 
-//Category data
-const categories = [
+  const categories = [
   { href: "/jeans", name: "Jeans", imageUrl: jeans },
   { href: "/t-shirts", name: "T-Shirts", imageUrl: tshirts },
   { href: "/shoes", name: "Shoes", imageUrl: shoes },
@@ -19,11 +20,23 @@ const categories = [
   { href: "/jackets", name: "Jackets", imageUrl: jackets },
   { href: "/suits", name: "Suits", imageUrl: suits },
   { href: "/bags", name: "Bags", imageUrl: bags },
+  // { href: "/watches", name: "Watches", imageUrl: watches },
+  // { href: "/hoodies", name: "Hoodies", imageUrl: hoodies },
+  // { href: "/accessories", name: "Accessories", imageUrl: accessories },
+  // { href: "/perfumes", name: "Perfumes", imageUrl: perfumes },
 ];
 
 
 
+
 const HomePages = () => {
+
+  const {fetchFeaturedProducts, products, loading} = useProductStore()
+
+  useEffect(()=>{
+    fetchFeaturedProducts()
+  },[fetchFeaturedProducts])
+
   return (
     <div className='relative min-h-screen text-white overflow-hidden'>
       <div className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16'>
@@ -39,6 +52,9 @@ const HomePages = () => {
             <ProductTypes key={category.name} category={category}/>
           ))}
         </div>
+
+{!loading && products.length > 0 && <FeaturedProducts featuredProducts={products} />}
+
       </div>
     </div>
   )
