@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon b/server.js",
     "start": "node b/server.js",
-    "build": "npm install --prefix f && npm run build --prefix f"
+     "build": "npm install && npm install --prefix f && npm run build --prefix f"
   },
   "keywords": [
     "JavaScript",
