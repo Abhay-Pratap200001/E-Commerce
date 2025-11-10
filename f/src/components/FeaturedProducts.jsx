@@ -7,6 +7,9 @@ const FeaturedProducts = ({ featuredProducts }) => {
   const [itemsPerPage, setItemsPerPage] = useState(4);
   const { addToCart } = useCartStore();
 
+
+
+  // to rezie the w of slider
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 640) setItemsPerPage(1);
@@ -20,15 +23,18 @@ const FeaturedProducts = ({ featuredProducts }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+// /for right one 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
       Math.min(prevIndex + itemsPerPage, featuredProducts.length - itemsPerPage)
     );
   };
 
+// for left one slider
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - itemsPerPage, 0));
   };
+
 
   const isStartDisabled = currentIndex === 0;
   const isEndDisabled = currentIndex >= featuredProducts.length - itemsPerPage;
@@ -46,9 +52,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
               className="flex transition-transform duration-500 ease-in-out"
               style={{
                 transform: `translateX(-${
-                  currentIndex * (100 / itemsPerPage)
-                }%)`,
-              }}>
+                  currentIndex * (100 / itemsPerPage)}%)`}}>
 
               {featuredProducts.map((product) => (
                 <div
@@ -70,6 +74,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
                       <p className="text-emerald-300 font-medium mb-4">
                         ₹{product.price.toFixed(2)}
                       </p>
+
                       <button
                         onClick={() => addToCart(product)}
                         className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-4 rounded-lg 
@@ -77,12 +82,14 @@ const FeaturedProducts = ({ featuredProducts }) => {
                         <ShoppingCart className="w-5 h-5"/>
                         Add to Cart
                       </button>
+
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+
 
           <button
             onClick={prevSlide}

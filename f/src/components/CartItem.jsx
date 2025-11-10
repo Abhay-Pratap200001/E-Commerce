@@ -3,7 +3,7 @@ import { useCartStore } from "../stores/useCardStore";
 import { Minus, Plus, Trash } from "lucide-react";
 
 const CartItem = ({ item }) => {
-  //extarcring all cart items from cartPages
+  //extarcring all cart items from cartPages to show in cart 
 
   const { removeFromCart, updateQuantity } = useCartStore();
 
@@ -15,7 +15,6 @@ const CartItem = ({ item }) => {
         </div>
 		
 
-        <label className="sr-only">Choose quantity:</label>
         <div className="flex items-center justify-between md:order-3 md:justify-end">
           <div className="flex items-center gap-2">
 

@@ -6,12 +6,15 @@ import ProductsList from "../components/ProductsList";
 import AnalyticsTab from "../components/AnalyticsTab";
 import { useProductStore } from "../stores/useProductStore";
 
+
 const tabs = [
   { id: "create", label: "Create Product", icon: PlusCircle },
   { id: "products", label: "Products", icon: ShoppingBasket },
   { id: "analytics", label: "Analytics", icon: BarChart },
 ];
 
+
+// keeps track of which tab is currently open
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("create");
   const {featchAllProducts} = useProductStore()

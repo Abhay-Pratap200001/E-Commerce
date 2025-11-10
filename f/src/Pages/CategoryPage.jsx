@@ -13,7 +13,7 @@ const CategoryPage = () => {
 	}, [featchProductsByCategory, category])
 
 	return (
-		<div className="min-h-screen  text-white">
+		<div className="min-h-screen">
 			<div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 				{/* Page Header */}
 				<motion.h1

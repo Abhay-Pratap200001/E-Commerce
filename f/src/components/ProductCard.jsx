@@ -6,6 +6,8 @@ import { motion } from 'framer-motion'
 import { useCartStore } from '../stores/useCardStore'
 
 const ProductCard = ({ product }) => {
+// extract product from people also bought component
+
 	const { user } = useUserStore()
 	const { addToCart } = useCartStore()
 
@@ -36,7 +38,7 @@ const ProductCard = ({ product }) => {
 
 			{/* Info Section */}
 			<div className="p-5 flex flex-col justify-between flex-1">
-				<h5 className="text-lg sm:text-xl font-semibold text-white mb-2 line-clamp-1">
+				<h5 className="text-lg sm:text-xl font-semibold text-gray-300 mb-2 line-clamp-1">
 					{product.name}
 				</h5>
 

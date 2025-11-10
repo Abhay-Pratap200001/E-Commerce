@@ -3,6 +3,8 @@ import { Trash, Star } from "lucide-react";
 import { useProductStore } from "../stores/useProductStore";
 
 const ProductsList = () => {
+
+  // extract info from store to use in toogle featured and delete and show all products
   const { deleteProduct, toggleFeaturedProduct, products } = useProductStore();
 
   return (
@@ -38,7 +40,7 @@ const ProductsList = () => {
           <tbody className="divide-y divide-green-900">
             {products?.map((product) => (
               // animate each row
-              <motion.tr
+              <tr
                 key={product._id}
                 whileHover={{ scale: 1.02, backgroundColor: "#0f1b0f" }}
                 transition={{ type: "spring", stiffness: 150, damping: 15 }}
@@ -94,7 +96,7 @@ const ProductsList = () => {
                     <Trash className="h-5 w-5" />
                   </button>
                 </td>
-              </motion.tr>
+              </tr>
             ))}
 
 

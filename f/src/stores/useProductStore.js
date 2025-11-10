@@ -2,6 +2,10 @@ import { create } from "zustand";
 import axios from "../lib/axios";
 import toast from "react-hot-toast";
 
+let refreshInterval = null; // 🔁 interval reference
+let refreshPromise = null;  // 🔄 to avoid duplicate refresh calls
+
+
 export const useProductStore = create((set) => ({
   // store state
   products: [], // all products will be stored here
@@ -9,6 +13,8 @@ export const useProductStore = create((set) => ({
 
   // function to set all products (used when fetching)
   setProducts: (products) => set({ products }),
+
+
 
   // function to create a new product
   createProduct: async (productData) => {
@@ -34,6 +40,8 @@ export const useProductStore = create((set) => ({
 
 
 
+
+
   featchAllProducts: async () => {
     set({ loading: true });
     try {
@@ -47,6 +55,8 @@ export const useProductStore = create((set) => ({
   },
 
 
+
+
   featchProductsByCategory: async (Category) => {
     set({loading: true})
     try {
@@ -57,6 +67,8 @@ export const useProductStore = create((set) => ({
       toast.error(error.response.data.error || 'Failed to fetch Products')      
     }
   },
+
+
 
 
 
@@ -77,6 +89,10 @@ export const useProductStore = create((set) => ({
 },
 
 
+
+
+
+
  	toggleFeaturedProduct: async (productId) => {
 		set({ loading: true });
 		try {
@@ -85,7 +101,6 @@ export const useProductStore = create((set) => ({
 			set((prevProducts) => ({
 				products: prevProducts.products.map((product) =>
 					product._id === productId ? { ...product, isFeatured: response.data.isFeatured } : product),
-
 				loading: false,
 			}));
       
@@ -102,6 +117,10 @@ export const useProductStore = create((set) => ({
 	},
 
 
+
+
+
+  
   fetchFeaturedProducts: async () => {
     set({loading: true})
     try {

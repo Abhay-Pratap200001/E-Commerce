@@ -8,6 +8,8 @@ export const useCartStore = create((set, get) => ({
   total: 0,
   subtotal: 0,
 
+
+
   // Get Cart Items
   getCartItems: async () => {
     try {
@@ -20,22 +22,19 @@ export const useCartStore = create((set, get) => ({
     }
   },
 
+
+
+
+
   // Add Product to Cart
   addToCart: async (product) => {
     try {
       await axios.post("/cart", { productId: product._id });
 
       set((prevState) => {
-        const existingItem = prevState.cart.find(
-          (item) => item._id === product._id
-        );
+        const existingItem = prevState.cart.find((item) => item._id === product._id);
 
-        const newCart = existingItem
-          ? prevState.cart.map((item) =>
-              item._id === product._id
-                ? { ...item, quantity: item.quantity + 1 }
-                : item
-            )
+        const newCart = existingItem ? prevState.cart.map((item) => item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item)
           : [...prevState.cart, { ...product, quantity: 1 }];
 
         return { cart: newCart };
@@ -47,6 +46,9 @@ export const useCartStore = create((set, get) => ({
       toast.error(error.response?.data?.message || "Error while adding product");
     }
   },
+
+
+
 
   // Remove Product from Cart
   removeFromCart: async (productId) => {
@@ -61,6 +63,11 @@ export const useCartStore = create((set, get) => ({
       toast.error(error.response?.data?.message || "Error removing item");
     }
   },
+
+
+
+
+
 
   // Update Quantity
   updateQuantity: async (productId, quantity) => {
@@ -84,11 +91,19 @@ export const useCartStore = create((set, get) => ({
     }
   },
 
+
+
+
+
   // Clear Cart
   clearCart: async () => {
     set({ cart: [], total: 0, subtotal: 0 });
     toast.success("Cart cleared");
   },
+
+
+
+
 
   // Calculate Totals
   calculateTotals: () => {

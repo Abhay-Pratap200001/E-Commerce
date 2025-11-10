@@ -56,7 +56,7 @@ const AnalyticsTab = () => {
         Admin Analytics Dashboard
       </motion.h1>
 
-      {/* SUMMARY CARDS */}
+      {/* SUMMARY CARDS AND SENDING PROPS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         <AnalyticsCard
           title="Total Users"
@@ -94,6 +94,8 @@ const AnalyticsTab = () => {
           📊 Weekly Sales & Revenue Overview
         </h2>
 
+
+          {/* SALES CHART */}
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={dailySalesData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#14532d" />
@@ -154,6 +156,8 @@ const AnalyticsTab = () => {
 
 export default AnalyticsTab;
 
+
+// accepting props to show in cart
 const AnalyticsCard = ({ title, value, icon: Icon, glow }) => {
   const glowColor =
     glow === "emerald"

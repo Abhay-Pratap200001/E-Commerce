@@ -8,6 +8,7 @@ import OrderSummary from "../components/OrderSummary.JSX";
 import { useEffect } from "react";
 
 const CartPage = () => {
+  // getting all cart from store
   const { cart, getCartItems } = useCartStore();
 
   useEffect(() => {
@@ -22,8 +23,7 @@ const CartPage = () => {
             className="w-full lg:max-w-3xl xl:max-w-4xl space-y-8"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
+            transition={{ duration: 0.5, delay: 0.2 }}>
             {cart.length === 0 ? (
               <EmptyCartUI />
             ) : (
@@ -42,8 +42,7 @@ const CartPage = () => {
               className="w-full mt-10 lg:mt-0 lg:w-1/3 space-y-6"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
+              transition={{ duration: 0.5, delay: 0.4 }}>
               <OrderSummary />
             </motion.div>
           )}

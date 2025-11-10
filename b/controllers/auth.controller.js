@@ -142,17 +142,19 @@ export const refreshToken = asynHandler(async (req, res) => {
     throw new ApiError(401, "Invalid refresh token");
   }
 
-  const accessToken = jwt.sign({ userId: decoded.userId },process.env.ACCESS_TOKEN_SECRET,{ expiresIn: "60m" });
+  const accessToken = jwt.sign({ userId: decoded.userId },process.env.ACCESS_TOKEN_SECRET,{ expiresIn: "16m" });
 
   res
     .cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 60 * 60 * 1000,
+       maxAge: 16 * 60 * 1000,
     })
     .json({ message: "Token refreshed successfully" });
 });
+
+
 
 
 export const getProfile = asynHandler(async(req, res)=>{
