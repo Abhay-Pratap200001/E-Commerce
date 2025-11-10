@@ -4,12 +4,11 @@
   "description": "Build complete e-commerce web application",
   "main": "b/server.js",
   "type": "module",
- "scripts": {
-  "dev": "nodemon b/server.js",
-  "start": "node b/server.js",
-  "build": "npm install --prefix f && npm run build --prefix f"
-},
-
+  "scripts": {
+    "dev": "nodemon b/server.js",
+    "start": "node b/server.js",
+    "build": "npm install --prefix f && npm run build --prefix f"
+  },
   "keywords": [
     "JavaScript",
     "MERN-STACK"
@@ -22,7 +21,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
+    "express": "^4.19.2",
     "ioredis": "^5.8.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.1",
