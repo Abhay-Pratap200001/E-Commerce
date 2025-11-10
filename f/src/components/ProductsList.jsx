@@ -63,7 +63,7 @@ const ProductsList = () => {
 
                 {/* Price */}
                 <td className="px-6 py-4 text-green-100 text-sm font-medium">
-                  ${product.price.toFixed(2)}
+                  ₹{product.price.toFixed(2)}
                 </td>
 
                 {/* Category tag */}

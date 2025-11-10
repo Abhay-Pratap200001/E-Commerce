@@ -73,7 +73,7 @@ logout: async () => {
 
 refreshToken: async () => {
 if (get().checkingAuth)return
-set({checkAuth : true});
+set({checkingAuth : true});
 try {
   const response = await axios.post("/auth/refresh-token")
   set({checkingAuth: false})

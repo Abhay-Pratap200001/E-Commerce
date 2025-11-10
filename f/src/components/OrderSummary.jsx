@@ -43,14 +43,14 @@ const OrderSummary = () => {
       <div className="space-y-3">
         <dl className="flex justify-between text-sm text-gray-300">
           <dt>Original price</dt>
-          <dd>${formattedSubtotal}</dd>
+          <dd>₹{formattedSubtotal}</dd>
         </dl>
 
         {/* if savings is greater then 0 sgow saving */}
         {savings > 0 && (
           <dl className="flex justify-between text-sm text-emerald-400">
             <dt>Savings</dt>
-            <dd>- ${formattedSaving}</dd>
+            <dd>- ₹{formattedSaving}</dd>
           </dl>
         )}
 
@@ -58,13 +58,13 @@ const OrderSummary = () => {
         {coupon && isCouponApplied && (
           <dl className="flex justify-between text-sm text-emerald-400">
             <dt>Coupon ({coupon.code})</dt>
-            <dd>-{coupon.discountPercentage}%</dd>
+            <dd>₹{coupon.discountPercentage}%</dd>
           </dl>
         )}
 
         <dl className="flex justify-between border-t border-gray-700 pt-3 text-base font-bold">
           <dt>Total</dt>
-          <dd className="text-emerald-400">${formattedTotal}</dd>
+          <dd className="text-emerald-400">₹{formattedTotal}</dd>
         </dl>
       </div>
 

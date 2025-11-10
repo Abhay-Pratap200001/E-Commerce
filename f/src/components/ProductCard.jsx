@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
 				</h5>
 
 				<p className="text-2xl font-bold text-emerald-400 drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]">
-					${product.price}
+					₹{product.price}
 				</p>
 
 				{/* Add to Cart Button */}
