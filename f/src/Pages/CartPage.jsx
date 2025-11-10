@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
 import CartItem from "../components/CartItem";
 import PeopleAlsoBought from "../components/PeopleAlsoBought";
-import OrderSummary from "../components/OrderSummary.JSX";
+import OrderSummary from "../components/OrderSummary";
 import { useEffect } from "react";
 
 const CartPage = () => {
