@@ -127,7 +127,6 @@ export const logout = asynHandler(async (req, res) => {
 
 
 
-
 // Refresh token controller
 export const refreshToken = asynHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
@@ -143,14 +142,14 @@ export const refreshToken = asynHandler(async (req, res) => {
     throw new ApiError(401, "Invalid refresh token");
   }
 
-  const accessToken = jwt.sign({ userId: decoded.userId },process.env.ACCESS_TOKEN_SECRET,{ expiresIn: "15m" });
+  const accessToken = jwt.sign({ userId: decoded.userId },process.env.ACCESS_TOKEN_SECRET,{ expiresIn: "60m" });
 
   res
     .cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 15 * 60 * 1000,
+      maxAge: 60 * 60 * 1000,
     })
     .json({ message: "Token refreshed successfully" });
 });

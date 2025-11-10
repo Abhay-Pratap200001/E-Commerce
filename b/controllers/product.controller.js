@@ -59,17 +59,14 @@ export const getProductsByCategory = asynHandler(async(req, res) => {
 
 
 
-// 
-// import asycHandler from "../utils/asyncHandler.js"; // ensure correct import
-export const getFeaturedProducts = asynHandler(async (req, res) => {
+// Adding featured product into redis
+export const getFeaturedProducts = asynHandler(async (_, res) => {
   try {
-    // Try Redis cache first
     let featuredProducts = null;
     try {
       featuredProducts = await redis.get("featured_Products");
       console.log("Redis fetched:", featuredProducts ? "✅ Cached data found" : "❌ No cache");
     } catch (redisErr) {
-      console.warn("⚠️ Redis fetch failed:", redisErr.message);
     }
 
     if (featuredProducts) {
@@ -109,7 +106,7 @@ export const getRecommendedProducts = asynHandler(async(req, res) => {
     try {
         const products = await Product.aggregate([
             {
-                $sample: {size:3}
+                $sample: {size:7}
             },    
 
             {
@@ -156,13 +153,7 @@ export const toggleFeaturedProduct = asynHandler(async(req, res) =>{
 async function updateFeaturedProductsCache() {
   try {
     const featuredProducts = await Product.find({ isFeatured: true }).lean();
-
-    // if redis not connected or fails, just log it
-    if (!redis) {
-      console.log("⚠️ Redis not initialized, skipping cache update");
-      return;
-    }
-
+    if (!redis) return;
     await redis.set("featured_Products", JSON.stringify(featuredProducts));
     console.log("✅ Featured products cache updated");
   } catch (error) {

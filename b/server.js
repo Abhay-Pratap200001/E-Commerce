@@ -12,7 +12,7 @@ import productRoutes from "./routes/product.Route.js"
 import cartRoutes from "./routes/cart.route.js";
 import analyticsRoutes from "./routes/analytic.Routes.js";
 import paymentRoutes from "./routes/payment.Route.js"
-import couponRoutes from "./routes/coupon.Route.js"
+// import couponRoutes from "./routes/coupon.Route.js"
 
 
 dotenv.config();
@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
-app.use("/api/coupons", couponRoutes);
+// app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
@@ -53,3 +53,5 @@ connectDB()
     console.error("❌ MongoDB Connection Failed:", error);
     process.exit(1);
   });
+
+

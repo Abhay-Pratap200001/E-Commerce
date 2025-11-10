@@ -50,7 +50,7 @@ export const getCartProducts = asynHandler(async (req, res) => {
 });
 
 
-
+// remove product from cart
 export const removeAllFromCart = asynHandler(async(req, res) => {
     try {
         const {productId} = req.body

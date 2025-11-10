@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import LoadingSpinner from "./LoadingSpinner";
 
+
 const AnalyticsTab = () => {
   const [analyticsData, setAnalyticsData] = useState({
     users: 0,
@@ -23,6 +24,7 @@ const AnalyticsTab = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [dailySalesData, setDailySalesData] = useState([]);
+
 
   useEffect(() => {
     const fetchAnalyticsData = async () => {
@@ -39,7 +41,9 @@ const AnalyticsTab = () => {
     fetchAnalyticsData();
   }, []);
 
+
   if (isLoading) return <LoadingSpinner />;
+
 
   return (
     <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 text-white font-sans">
@@ -58,26 +62,26 @@ const AnalyticsTab = () => {
           title="Total Users"
           value={analyticsData.users.toLocaleString()}
           icon={Users}
-          glow="emerald"
-        />
+          glow="emerald"/>
+          
         <AnalyticsCard
           title="Total Products"
           value={analyticsData.products.toLocaleString()}
           icon={Package}
-          glow="green"
-        />
+          glow="green"/>
+          
         <AnalyticsCard
           title="Total Sales"
           value={analyticsData.totalSales.toLocaleString()}
           icon={ShoppingCart}
-          glow="lime"
-        />
+          glow="lime"/>
+          
         <AnalyticsCard
           title="Total Revenue"
           value={`$${analyticsData.totalRevenue.toLocaleString()}`}
           icon={DollarSign}
-          glow="emerald"
-        />
+          glow="emerald"/>
+          
       </div>
 
       {/* CHART */}
@@ -85,8 +89,7 @@ const AnalyticsTab = () => {
         className="rounded-2xl p-6 shadow-[0_0_20px_rgba(16,185,129,0.1)] border border-emerald-700/40 bg-gradient-to-br from-black via-gray-900 to-emerald-950"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-      >
+        transition={{ duration: 0.7 }}>
         <h2 className="text-xl font-semibold mb-4 text-emerald-400 drop-shadow-[0_0_6px_rgba(16,185,129,0.6)]">
           📊 Weekly Sales & Revenue Overview
         </h2>
@@ -97,29 +100,29 @@ const AnalyticsTab = () => {
             <XAxis
               dataKey="date"
               stroke="#16a34a"
-              tick={{ fontSize: 12, fill: "#a7f3d0" }}
-            />
+              tick={{ fontSize: 12, fill: "#a7f3d0" }}/>
+
             <YAxis
               yAxisId="left"
               stroke="#10B981"
               tick={{ fontSize: 12, fill: "#a7f3d0" }}
-              domain={[0, "auto"]}
-            />
+              domain={[0, "auto"]}/>
+
             <YAxis
               yAxisId="right"
               orientation="right"
               stroke="#34d399"
               tick={{ fontSize: 12, fill: "#a7f3d0" }}
-              domain={[0, "auto"]}
-            />
+              domain={[0, "auto"]}/>
+
             <Tooltip
               contentStyle={{
                 backgroundColor: "#052e16",
                 border: "1px solid #10B981",
                 borderRadius: "10px",
                 color: "#a7f3d0",
-              }}
-            />
+              }}/>
+
             <Legend wrapperStyle={{ color: "#a7f3d0" }} />
             <Line
               yAxisId="left"
@@ -129,8 +132,8 @@ const AnalyticsTab = () => {
               strokeWidth={3}
               dot={{ r: 5, fill: "#10B981" }}
               activeDot={{ r: 8, stroke: "#a7f3d0" }}
-              name="Sales"
-            />
+              name="Sales"/>
+
             <Line
               yAxisId="right"
               type="monotone"
@@ -139,14 +142,15 @@ const AnalyticsTab = () => {
               strokeWidth={3}
               dot={{ r: 5, fill: "#34d399" }}
               activeDot={{ r: 8, stroke: "#86efac" }}
-              name="Revenue ($)"
-            />
+              name="Revenue ($)"/>
+
           </LineChart>
         </ResponsiveContainer>
       </motion.div>
     </div>
   );
 };
+
 
 export default AnalyticsTab;
 
@@ -164,10 +168,8 @@ const AnalyticsCard = ({ title, value, icon: Icon, glow }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      whileHover={{ scale: 1.03 }}
-    >
-      <div className="flex justify-between items-center relative z-10">
-        <div>
+      whileHover={{ scale: 1.03 }}>
+      <div className="flex justify-between items-center relative z-10"><div>
           <p className="text-sm text-emerald-300 font-medium uppercase tracking-wide">
             {title}
           </p>
