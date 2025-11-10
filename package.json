@@ -4,11 +4,12 @@
   "description": "Build complete e-commerce web application",
   "main": "b/server.js",
   "type": "module",
-  "scripts": {
-    "dev": "nodemon/b/server.js",
-    "start": "node/b/server.js",
-    "build": "npm install && npm install --prefix f && npm run build --prefix f"
-  },
+ "scripts": {
+  "dev": "nodemon b/server.js",
+  "start": "node b/server.js",
+  "build": "npm install --prefix f && npm run build --prefix f"
+},
+
   "keywords": [
     "JavaScript",
     "MERN-STACK"
