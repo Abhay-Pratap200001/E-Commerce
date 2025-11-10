@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import path from "path"
 
-// 
+
 import { connectDB } from "./lib/dbConncrtion.js";
 import {errorHandler} from "./middleware/error.middleware.js"
 
@@ -12,13 +13,13 @@ import productRoutes from "./routes/product.Route.js"
 import cartRoutes from "./routes/cart.route.js";
 import analyticsRoutes from "./routes/analytic.Routes.js";
 import paymentRoutes from "./routes/payment.Route.js"
-// import couponRoutes from "./routes/coupon.Route.js"
 
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const _dirname = path.resolve()
 
 app.use(express.json({ limit: "10mb" })); // allows you to parse the body of the request
 app.use(cookieParser());
@@ -28,10 +29,17 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
-// app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
+
+if (process.env.NODE_ENV === "PRODUCTION") {
+  app.use(express.static(path.join(__dirname, "/f/dist")))
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "f", "dist", "index.html"))
+  })
+}
 
 //  Error handler 
 app.use(errorHandler);

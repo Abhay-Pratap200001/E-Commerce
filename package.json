@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon/b/server.js",
-    "start": "node/b/server.js"
+    "start": "node/b/server.js",
+    "buiid": "npm install && npm install --prefix f && npm run build --prefix f"
   },
   "keywords": [
     "JavaScript",
