@@ -8,7 +8,7 @@ import { connectDB } from "./lib/dbConncrtion.js";
 import {errorHandler} from "./middleware/error.middleware.js"
 
 // routes
-import authRoutes from "./routes/auth.route.js";
+import authRoutes from "./routes/auth.Route.js";
 import productRoutes from "./routes/product.Route.js"
 import cartRoutes from "./routes/cart.route.js";
 import analyticsRoutes from "./routes/analytic.Routes.js";
