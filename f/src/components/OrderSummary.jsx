@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useCartStore } from "../stores/useCardStore";
 import { Link } from "react-router-dom";
 import { MoveRight } from "lucide-react";
-// import {loadStripe} from "@stripe/stripe-js"
 import axios from "../lib/axios";
 
 

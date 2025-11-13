@@ -66,7 +66,7 @@ logout: async () => {
     set({user:null })
     toast.success("User Logout SuccesFully")
   } catch (error) {
-    toast.error(error.response?.data?.message || "An occur while logout")
+    console.log(error);
   }
 },
 

@@ -112,10 +112,6 @@ export const login = asynHandler(async (req, res) => {
 export const logout = asynHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
-  if (!refreshToken) {
-    throw new ApiError(400, "No refresh token found");
-  }
-
   const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
   await redis.del(`refresh_token:${decoded.userId}`);
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { LogIn, Mail, Lock, ArrowRight, Loader, UserPlus } from 'lucide-react'
+import { Mail, Lock, ArrowRight, Loader, UserPlus } from 'lucide-react'
 import { useUserStore } from '../stores/useUserStore'
 
 
